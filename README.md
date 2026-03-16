@@ -4,6 +4,7 @@
 ![pandas](https://img.shields.io/badge/pandas-3.0.1-blue)
 ![scikit--learn](https://img.shields.io/badge/scikit--learn-1.8.0-orange)
 ![uv](https://img.shields.io/badge/managed%20with-uv-purple)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://traveltide-customer-segmentation-ak.streamlit.app/)
 
 ## Business Context
 TravelTide is a travel booking platform launching a personalized rewards program.
