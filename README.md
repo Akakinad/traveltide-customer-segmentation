@@ -23,15 +23,75 @@ to respond to, based on their past booking behavior.
 - **Source:** TravelTide PostgreSQL database
 - **Tables used:** `sessions`, `flights`, `hotels`, `users`
 - **Cohort:** 24,724 users with 7+ sessions after January 4, 2023
-- **Cohort extraction:** SQL (see `data/` folder)
+
+---
+
+## Results
+
+### Customer Perk Segments
+![Segment Sizes](outputs/segment_sizes.png)
+
+### Segment Validation — Affinity Heatmap
+![Validation Heatmap](outputs/validation_heatmap.png)
+
+### K-Means vs Rule-Based — PCA Cluster Visualization
+![PCA Clusters](outputs/cluster_visualization_pca.png)
+
+### Demographic Profile by Segment
+![Segment Profiles](outputs/segment_profiles.png)
+
+---
+
+## Methodology
+
+### 1. SQL Cohort Extraction
+Cohort defined as users with at least 7 sessions after January 4, 2023.
+Metrics extracted by joining sessions, flights, hotels and users tables.
+
+### 2. Exploratory Data Analysis
+![Distributions](outputs/eda_distributions.png)
+![Correlation](outputs/eda_correlation.png)
+
+### 3. Feature Engineering — Outlier Handling
+![Outliers Before](outputs/outliers_before.png)
+![Outliers After](outputs/outliers_after.png)
+
+### 4. Perk Affinity Indexes
+![Perk Indexes](outputs/perk_index_distributions.png)
+
+### 5. Rule-Based Fuzzy Segmentation
+- Ranked all customers per perk index
+- Assigned each customer to their strongest perk
+- Result: mutually exclusive segments, zero unassigned
+
+### 6. K-Means Clustering (K=5)
+![Elbow Plot](outputs/elbow_plot.png)
+
+- Validated K=5 using elbow method
+- Compared K-Means assignments to rule-based
+- Rule-based recommended for this business problem
+
+---
+
+## Final Segment Summary
+
+| Perk | Customers | Share |
+|------|-----------|-------|
+| 🏷️ Exclusive Discounts | 3,854 | 15.6% |
+| 🧳 Free Checked Bag | 4,867 | 19.7% |
+| ❌ No Cancellation Fee | 6,501 | 26.3% |
+| 🍽️ Free Hotel Meal | 5,227 | 21.1% |
+| 🛫 Priority Boarding | 4,275 | 17.3% |
+
+---
 
 ## Project Structure
 ```
 traveltide-customer-segmentation/
 ├── data/
-│   └── traveltide_cohort.csv        # Cohort extracted via SQL
+│   └── traveltide_cohort.csv
 ├── notebooks/
-│   └── traveltide_segmentation.ipynb  # Main analysis notebook
+│   └── traveltide_segmentation.ipynb
 ├── outputs/
 │   ├── eda_distributions.png
 │   ├── eda_correlation.png
@@ -41,49 +101,12 @@ traveltide-customer-segmentation/
 │   ├── elbow_plot.png
 │   ├── segment_sizes.png
 │   ├── validation_heatmap.png
+│   ├── cluster_visualization_pca.png
 │   ├── segment_profiles.png
-│   └── traveltide_final_segments.csv  # Final output
+│   └── traveltide_final_segments.csv
 ├── pyproject.toml
 └── README.md
 ```
-
-## Methodology
-
-### 1. SQL Cohort Extraction
-Cohort defined as users with at least 7 sessions after January 4, 2023.
-Metrics extracted by joining sessions, flights, hotels and users tables.
-
-### 2. Exploratory Data Analysis
-- Distribution analysis of all 12 behavioral metrics
-- Missing value analysis and interpretation
-- Outlier detection via box plots
-- Correlation analysis between metrics
-
-### 3. Feature Engineering
-- Null filling with 0 (absence of behavior = zero affinity)
-- Outlier capping at 99th percentile
-- MinMax scaling to 0–1
-- Composite perk affinity index per perk (product of scaled metrics)
-
-### 4. Rule-Based Fuzzy Segmentation
-- Ranked all customers per perk index
-- Assigned each customer to their strongest perk
-- Result: mutually exclusive segments
-
-### 5. K-Means Clustering (K=5)
-- Validated K=5 using elbow method
-- Compared K-Means assignments to rule-based
-- Rule-based recommended for this business problem
-
-## Results
-
-| Perk | Customers | Share |
-|------|-----------|-------|
-| 🏷️ Exclusive Discounts | 3,854 | 15.6% |
-| 🧳 Free Checked Bag | 4,867 | 19.7% |
-| ❌ No Cancellation Fee | 6,501 | 26.3% |
-| 🍽️ Free Hotel Meal | 5,227 | 21.1% |
-| 🛫 Priority Boarding | 4,275 | 17.3% |
 
 ## How to Run
 ```bash
@@ -101,6 +124,5 @@ uv run python -m ipykernel install --user --name=traveltide-customer-segmentatio
 ```
 
 ## Author
-**Akakinad**  
-ML Engineer | Berlin  
+**Akinade**
 [GitHub](https://github.com/Akakinad)
