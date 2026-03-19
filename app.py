@@ -307,7 +307,7 @@ elif page == "📖 Methodology":
     - Rule-based results are fully interpretable by stakeholders
 
     ---
-    **Author:** Shola Akinade | ML Engineer | Berlin
+    **Author:** Akakinad | ML Engineer | Berlin
 
     **GitHub:** [traveltide-customer-segmentation](https://github.com/Akakinad/traveltide-customer-segmentation)
     """)
